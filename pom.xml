@@ -24,7 +24,8 @@
         <dependency>
             <groupId>de.ree6</groupId>
             <artifactId>Ree6</artifactId>
-            <version>4ab1307597</version>
+            <version>61eca51960</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
