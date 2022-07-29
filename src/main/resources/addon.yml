@@ -1,0 +1,5 @@
+name: Derped-Crusader-Addon
+version: 1.0
+api-version: 1.8.1
+author: Presti
+main: de.presti.ree6.derpedcrusader.DerpedCrusader
