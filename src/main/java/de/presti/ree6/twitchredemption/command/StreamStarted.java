@@ -1,21 +1,18 @@
-package de.presti.ree6.derpedcrusader.command;
+package de.presti.ree6.twitchredemption.command;
 
 import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
-import com.github.twitch4j.pubsub.events.ChannelPointsRedemptionEvent;
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
 import de.presti.ree6.commands.Category;
 import de.presti.ree6.commands.CommandEvent;
 import de.presti.ree6.commands.interfaces.Command;
 import de.presti.ree6.commands.interfaces.ICommand;
 import de.presti.ree6.main.Main;
-import de.presti.ree6.utils.others.ThreadUtil;
+import de.presti.ree6.twitchredemption.utils.TTSUtil;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.FileAttribute;
-import java.time.Duration;
 
 /**
  * @inheritDoc
@@ -28,7 +25,7 @@ public class StreamStarted implements ICommand {
      */
     @Override
     public void onPerform(CommandEvent commandEvent) {
-        Path of = Path.of("derpedcrusader/");
+        Path of = Path.of("twitchRedemption/");
         if (!Files.exists(of)) {
             try {
                 Files.createDirectory(of);
@@ -56,6 +53,8 @@ public class StreamStarted implements ICommand {
             switch (channelPointsRedemptionEvent.getRedemption().getReward().getId()) {
                 case "amogus" -> Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(),
                         "https://www.youtube.com/watch?v=dQw4w9WgXcQ", commandEvent.getInteractionHook());
+                case "tts" -> Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(),
+                        TTSUtil.createTTS(channelPointsRedemptionEvent.getRedemption().getUserInput()), commandEvent.getInteractionHook());
             }
         });
 
@@ -63,13 +62,14 @@ public class StreamStarted implements ICommand {
         try {
             credential = new OAuth2Credential(
                     "twitch",
-                    Files.readString(Path.of("derpedcrusader/","twitch.creds"))
+                    Files.readString(Path.of("twitchRedemption/","twitch.creds"))
             );
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        Main.getInstance().getNotifier().getTwitchClient().getPubSub().listenForChannelPointsRedemptionEvents(credential, "47397687");
+        ///// 47397687
+        Main.getInstance().getNotifier().getTwitchClient().getPubSub().listenForChannelPointsRedemptionEvents(credential, credential.getUserId());
     }
 
     /**

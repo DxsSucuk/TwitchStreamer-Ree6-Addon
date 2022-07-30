@@ -1,11 +1,11 @@
-package de.presti.ree6.derpedcrusader.main;
+package de.presti.ree6.twitchredemption.main;
 
 import de.presti.ree6.addons.AddonInterface;
 import de.presti.ree6.commands.exceptions.CommandInitializerException;
-import de.presti.ree6.derpedcrusader.command.StreamStarted;
+import de.presti.ree6.twitchredemption.command.StreamStarted;
 import de.presti.ree6.main.Main;
 
-public class DerpedCrusader implements AddonInterface {
+public class TwitchRedemption implements AddonInterface {
 
     @Override
     public void onEnable() {

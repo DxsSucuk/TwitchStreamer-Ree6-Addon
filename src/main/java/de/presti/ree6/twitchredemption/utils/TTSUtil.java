@@ -1,6 +1,5 @@
-package de.presti.ree6.derpedcrusader.utils;
+package de.presti.ree6.twitchredemption.utils;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -8,10 +7,18 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class TTSUtil {
 
-    public static byte[] createTTS(String apiKey, String text) {
+    public static byte[] createTTS(String text) {
+        String apiKey = "";
+        try {
+            apiKey =  Files.readString(Path.of("twitchRedemption/","voicerss.creds"));
+        } catch (Exception ignore) {
+            return new byte[512];
+        }
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.voicerss.org/?key=" + apiKey + "&hl=en-us&src=" + URLEncoder.encode(text, StandardCharsets.UTF_8)))
                 .header("content-type", "application/x-www-form-urlencoded")

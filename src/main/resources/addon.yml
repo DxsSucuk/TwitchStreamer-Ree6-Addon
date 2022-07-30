@@ -1,5 +1,5 @@
-name: Derped-Crusader-Addon
+name: Twitch-Redemption-Addon
 version: 1.0
 api-version: 1.8.1
 author: Presti
-main: de.presti.ree6.derpedcrusader.DerpedCrusader
+main: de.presti.ree6.twitchredemption.main.TwitchRedemption
