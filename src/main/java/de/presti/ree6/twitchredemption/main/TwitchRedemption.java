@@ -9,6 +9,7 @@ public class TwitchRedemption implements AddonInterface {
 
     @Override
     public void onEnable() {
+        Main.getInstance().getLogger().info("Starting Twitch Redemption Addon...");
         try {
             Main.getInstance().getCommandManager().addCommand(new StreamStarted());
         } catch (CommandInitializerException e) {

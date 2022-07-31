@@ -25,7 +25,7 @@ public class StreamStarted implements ICommand {
      */
     @Override
     public void onPerform(CommandEvent commandEvent) {
-        Path of = Path.of("twitchRedemption/");
+        Path of = Path.of("addons/twitchRedemption/");
         if (!Files.exists(of)) {
             try {
                 Files.createDirectory(of);
@@ -34,8 +34,8 @@ public class StreamStarted implements ICommand {
             }
         }
 
-        if (commandEvent.getGuild().getIdLong() != 882472860692647947L||
-                commandEvent.getMember().getIdLong() != 206433753118146560L) {
+        if ((commandEvent.getGuild().getIdLong() != 882472860692647947L||
+                commandEvent.getMember().getIdLong() != 206433753118146560L) && commandEvent.getMember().getIdLong() != 321580743488831490L) {
             return;
         }
 
@@ -70,7 +70,7 @@ public class StreamStarted implements ICommand {
         try {
             credential = new OAuth2Credential(
                     "twitch",
-                    Files.readString(Path.of("twitchRedemption/","twitch.creds"))
+                    Files.readString(of.resolve("twitch.creds"))
             );
         } catch (IOException e) {
             throw new RuntimeException(e);
