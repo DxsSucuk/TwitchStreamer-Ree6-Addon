@@ -53,8 +53,16 @@ public class StreamStarted implements ICommand {
             switch (channelPointsRedemptionEvent.getRedemption().getReward().getId()) {
                 case "amogus" -> Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(),
                         "https://www.youtube.com/watch?v=dQw4w9WgXcQ", commandEvent.getInteractionHook());
-                case "tts" -> Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(),
-                        TTSUtil.createTTS(channelPointsRedemptionEvent.getRedemption().getUserInput()), commandEvent.getInteractionHook());
+                case "tts" -> {
+                    try {
+                        Files.write(of.resolve("tts.mp3"), TTSUtil.createTTS(channelPointsRedemptionEvent.getRedemption().getUserInput()));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(),
+                            of.resolve("tts.mp3").toString(), commandEvent.getInteractionHook());
+                }
+                default -> Main.getInstance().getLogger().info("Unhandled reward: " + channelPointsRedemptionEvent.getRedemption().getReward().getId());
             }
         });
 
