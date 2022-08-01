@@ -1,13 +1,19 @@
 package de.presti.ree6.twitchredemption.main;
 
+import com.github.philippheuer.events4j.api.domain.IEventSubscription;
 import de.presti.ree6.addons.AddonInterface;
 import de.presti.ree6.commands.exceptions.CommandInitializerException;
 import de.presti.ree6.twitchredemption.command.StreamStarted;
 import de.presti.ree6.main.Main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TwitchRedemption implements AddonInterface {
 
     public static boolean isRunning = false;
+
+    public final static List<IEventSubscription> subscriptionList = new ArrayList<>();
 
     @Override
     public void onEnable() {
@@ -22,5 +28,8 @@ public class TwitchRedemption implements AddonInterface {
     @Override
     public void onDisable() {
         Main.getInstance().getCommandManager().removeCommand(Main.getInstance().getCommandManager().getCommandByName("streamstarted"));
+        for (IEventSubscription subscription : subscriptionList) {
+            subscription.dispose();
+        }
     }
 }

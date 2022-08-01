@@ -51,26 +51,22 @@ public class StreamStarted implements ICommand {
             }
         }
 
-        if ((commandEvent.getGuild().getIdLong() != 882472860692647947L ||
-                commandEvent.getMember().getIdLong() != 206433753118146560L) && commandEvent.getMember().getIdLong() != 321580743488831490L) {
+        if ((commandEvent.getGuild().getIdLong() != 882472860692647947L || commandEvent.getMember().getIdLong() != 206433753118146560L) && commandEvent.getMember().getIdLong() != 321580743488831490L) {
             return;
         }
 
-        if (commandEvent.getMember().getVoiceState() == null ||
-                commandEvent.getMember().getVoiceState().getChannel() == null ||
-                !commandEvent.getMember().getVoiceState().inAudioChannel()) {
+        if (commandEvent.getMember().getVoiceState() == null || commandEvent.getMember().getVoiceState().getChannel() == null || !commandEvent.getMember().getVoiceState().inAudioChannel()) {
             return;
         }
 
-        Main.getInstance().getNotifier().getTwitchClient().getEventManager().onEvent(RewardRedeemedEvent.class, channelPointsRedemptionEvent -> {
+        TwitchRedemption.subscriptionList.add(Main.getInstance().getNotifier().getTwitchClient().getEventManager().onEvent(RewardRedeemedEvent.class, channelPointsRedemptionEvent -> {
             if (!channelPointsRedemptionEvent.getRedemption().getChannelId().equals("47397687")) {
                 return;
             }
             switch (channelPointsRedemptionEvent.getRedemption().getReward().getId().trim()) {
                 case "ac36ac74-598e-41d2-8e33-a5cb94117af4" -> {
                     if (commandEvent.getMember().getVoiceState() != null && commandEvent.getMember().getVoiceState().inAudioChannel())
-                        Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(),
-                                "https://www.youtube.com/watch?v=rVVkEDVdLII", commandEvent.getInteractionHook());
+                        Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(), "https://www.youtube.com/watch?v=rVVkEDVdLII", commandEvent.getInteractionHook());
                 }
                 case "03811de1-5810-4b40-9a1f-79ecfbdca032" -> {
                     String input = channelPointsRedemptionEvent.getRedemption().getUserInput();
@@ -89,49 +85,41 @@ public class StreamStarted implements ICommand {
                     }
 
                     if (commandEvent.getMember().getVoiceState() != null && commandEvent.getMember().getVoiceState().inAudioChannel()) {
-                        Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(),
-                                of1.toString(), commandEvent.getInteractionHook());
+                        Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(), of1.toString(), commandEvent.getInteractionHook());
                     }
                 }
                 default ->
                         Main.getInstance().getLogger().info("Unhandled reward: " + channelPointsRedemptionEvent.getRedemption().getReward().getId());
             }
-        });
+        }));
 
-        Main.getInstance().getNotifier().getTwitchClient().getEventManager().onEvent(FollowingEvent.class, followingEvent -> {
+        TwitchRedemption.subscriptionList.add(Main.getInstance().getNotifier().getTwitchClient().getEventManager().onEvent(FollowingEvent.class, followingEvent -> {
             if (!followingEvent.getChannelId().equals("47397687")) {
                 return;
             }
 
             if (commandEvent.getMember().getVoiceState() != null && commandEvent.getMember().getVoiceState().inAudioChannel())
-                Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(),
-                        "https://soundcloud.com/ikill4fun23/explosion-3?in=ikill4fun23/sets/stream-stuff",
-                        commandEvent.getInteractionHook());
-        });
+                Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(), "https://soundcloud.com/ikill4fun23/explosion-3?in=ikill4fun23/sets/stream-stuff", commandEvent.getInteractionHook());
+        }));
 
-        Main.getInstance().getNotifier().getTwitchClient().getEventManager().onEvent(ChannelSubscribeEvent.class, subscribeEvent -> {
+        TwitchRedemption.subscriptionList.add(Main.getInstance().getNotifier().getTwitchClient().getEventManager().onEvent(ChannelSubscribeEvent.class, subscribeEvent -> {
             if (!subscribeEvent.getData().getChannelId().equals("47397687")) {
                 return;
             }
 
             if (commandEvent.getMember().getVoiceState() != null && commandEvent.getMember().getVoiceState().inAudioChannel())
-                Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(),
-                        "https://soundcloud.com/ikill4fun23/sayori?in=ikill4fun23/sets/stream-stuff",
-                        commandEvent.getInteractionHook());
-        });
+                Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(), "https://soundcloud.com/ikill4fun23/sayori?in=ikill4fun23/sets/stream-stuff", commandEvent.getInteractionHook());
+        }));
 
-        Main.getInstance().getNotifier().getTwitchClient().getEventManager().onEvent(ChannelBitsEvent.class, channelBitsEvent -> {
+        TwitchRedemption.subscriptionList.add(Main.getInstance().getNotifier().getTwitchClient().getEventManager().onEvent(ChannelBitsEvent.class, channelBitsEvent -> {
             if (!channelBitsEvent.getData().getChannelId().equals("47397687")) {
                 return;
             }
 
             if (commandEvent.getMember().getVoiceState() != null && commandEvent.getMember().getVoiceState().inAudioChannel()) {
-                Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(),
-                        "https://soundcloud.com/noticemesenpai/sayori?in=ikill4fun23/sets/stream-stuff",
-                        commandEvent.getInteractionHook());
+                Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(), "https://soundcloud.com/noticemesenpai/sayori?in=ikill4fun23/sets/stream-stuff", commandEvent.getInteractionHook());
 
-                String input = channelBitsEvent.getData()
-                        .getChatMessage();
+                String input = channelBitsEvent.getData().getChatMessage();
                 Path of1 = Path.of(of.toString(), "bitsTTS.mp3");
                 byte[] fileInfo = new byte[0];
                 try {
@@ -146,18 +134,13 @@ public class StreamStarted implements ICommand {
                     Main.getInstance().getLogger().error("Could not create file!", exception);
                 }
 
-                Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(),
-                        of1.toString(),
-                        commandEvent.getInteractionHook());
+                Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), commandEvent.getMember().getVoiceState().getChannel(), of1.toString(), commandEvent.getInteractionHook());
             }
-        });
+        }));
 
         OAuth2Credential credential = null;
         try {
-            credential = new OAuth2Credential(
-                    "twitch",
-                    Files.readString(of.resolve("twitch.creds"))
-            );
+            credential = new OAuth2Credential("twitch", Files.readString(of.resolve("twitch.creds")));
         } catch (IOException e) {
             Main.getInstance().getLogger().error("Could not read Twitch credentials!", e);
         }
@@ -165,8 +148,7 @@ public class StreamStarted implements ICommand {
         Main.getInstance().getNotifier().getTwitchClient().getPubSub().listenForChannelPointsRedemptionEvents(credential, "47397687");
         Main.getInstance().getNotifier().getTwitchClient().getPubSub().listenForSubscriptionEvents(credential, "47397687");
         Main.getInstance().getNotifier().getTwitchClient().getPubSub().listenForUserBitsUpdateEvents(credential, "47397687");
-        Main.getInstance().getCommandManager().sendMessage("Understood!\nI will now join the voicechannel and start listing for redeems!",
-                commandEvent.getChannel(), commandEvent.getInteractionHook());
+        Main.getInstance().getCommandManager().sendMessage("Understood!\nI will now join the voicechannel and start listing for redeems!", commandEvent.getChannel(), commandEvent.getInteractionHook());
 
         TwitchRedemption.isRunning = true;
     }
@@ -198,10 +180,7 @@ public class StreamStarted implements ICommand {
 
         HttpRequest request = HttpRequest.newBuilder()
                 //.uri(URI.create("https://api.voicerss.org/?key=" + apiKey + "&hl=en-us&f=48khz_16bit_stereo&src=" + URLEncoder.encode(text, StandardCharsets.UTF_8)))
-                .uri(URI.create("https://api.streamelements.com/kappa/v2/speech?voice=Brian&text=" + URLEncoder.encode(text, StandardCharsets.UTF_8)))
-                .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36")
-                .GET()
-                .build();
+                .uri(URI.create("https://api.streamelements.com/kappa/v2/speech?voice=Brian&text=" + URLEncoder.encode(text, StandardCharsets.UTF_8))).header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36").GET().build();
         HttpResponse<InputStream> httpResponse = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofInputStream());
         try (InputStream inputStream = httpResponse.body()) {
             return inputStream.readAllBytes();
