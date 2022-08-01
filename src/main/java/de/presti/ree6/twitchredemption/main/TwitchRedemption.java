@@ -7,6 +7,8 @@ import de.presti.ree6.main.Main;
 
 public class TwitchRedemption implements AddonInterface {
 
+    public static boolean isRunning = false;
+
     @Override
     public void onEnable() {
         Main.getInstance().getLogger().info("Starting Twitch Redemption Addon...");
@@ -19,6 +21,6 @@ public class TwitchRedemption implements AddonInterface {
 
     @Override
     public void onDisable() {
-
+        Main.getInstance().getCommandManager().removeCommand(Main.getInstance().getCommandManager().getCommandByName("streamstarted"));
     }
 }

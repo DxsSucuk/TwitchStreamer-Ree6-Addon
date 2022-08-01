@@ -10,6 +10,7 @@ import de.presti.ree6.commands.CommandEvent;
 import de.presti.ree6.commands.interfaces.Command;
 import de.presti.ree6.commands.interfaces.ICommand;
 import de.presti.ree6.main.Main;
+import de.presti.ree6.twitchredemption.main.TwitchRedemption;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 import java.io.FileOutputStream;
@@ -30,11 +31,17 @@ import java.nio.file.Path;
 @Command(name = "streamstarted", description = "HIDDEN USER-SPECIFIC FEATURE!", category = Category.HIDDEN)
 public class StreamStarted implements ICommand {
 
+
     /**
      * @inheritDoc
      */
     @Override
     public void onPerform(CommandEvent commandEvent) {
+        if (TwitchRedemption.isRunning) {
+            Main.getInstance().getCommandManager().sendMessage("The Twitch listener is already running!", commandEvent.getChannel());
+            return;
+        }
+
         Path of = Path.of("addons/twitchRedemption/");
         if (!Files.exists(of)) {
             try {
@@ -67,7 +74,7 @@ public class StreamStarted implements ICommand {
                 }
                 case "03811de1-5810-4b40-9a1f-79ecfbdca032" -> {
                     String input = channelPointsRedemptionEvent.getRedemption().getUserInput();
-                    Path of1 = Path.of(of.toString(), "tts.wav");
+                    Path of1 = Path.of(of.toString(), "tts.mp3");
                     byte[] fileInfo = new byte[0];
                     try {
                         fileInfo = createTTS(input);
@@ -125,7 +132,7 @@ public class StreamStarted implements ICommand {
 
                 String input = channelBitsEvent.getData()
                         .getChatMessage();
-                Path of1 = Path.of(of.toString(), "bitsTTS.wav");
+                Path of1 = Path.of(of.toString(), "bitsTTS.mp3");
                 byte[] fileInfo = new byte[0];
                 try {
                     fileInfo = createTTS(input);
@@ -160,6 +167,8 @@ public class StreamStarted implements ICommand {
         Main.getInstance().getNotifier().getTwitchClient().getPubSub().listenForUserBitsUpdateEvents(credential, "47397687");
         Main.getInstance().getCommandManager().sendMessage("Understood!\nI will now join the voicechannel and start listing for redeems!",
                 commandEvent.getChannel(), commandEvent.getInteractionHook());
+
+        TwitchRedemption.isRunning = true;
     }
 
     /**
@@ -179,16 +188,17 @@ public class StreamStarted implements ICommand {
     }
 
     public static byte[] createTTS(String text) throws IOException, InterruptedException {
-        String apiKey;
+        /*String apiKey;
         try {
             apiKey = Files.readString(Path.of("addons/twitchRedemption/", "voicerss.creds"));
         } catch (Exception exception) {
             Main.getInstance().getLogger().error("Could not read voiceRSS API key!", exception);
             return new byte[512];
-        }
+        }*/
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.voicerss.org/?key=" + apiKey + "&hl=en-us&f=48khz_16bit_stereo&src=" + URLEncoder.encode(text, StandardCharsets.UTF_8)))
+                //.uri(URI.create("https://api.voicerss.org/?key=" + apiKey + "&hl=en-us&f=48khz_16bit_stereo&src=" + URLEncoder.encode(text, StandardCharsets.UTF_8)))
+                .uri(URI.create("https://api.streamelements.com/kappa/v2/speech?voice=Brian&text=" + URLEncoder.encode(text, StandardCharsets.UTF_8)))
                 .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36")
                 .GET()
                 .build();
