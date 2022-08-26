@@ -1,5 +1,5 @@
 name: Twitch-Redemption-Addon
 version: 1.0
-api-version: 1.9.2
+api-version: 1.9.4
 author: Presti
 main: de.presti.ree6.twitchredemption.main.TwitchRedemption

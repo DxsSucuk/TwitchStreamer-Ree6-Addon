@@ -15,6 +15,9 @@ public class TwitchRedemption implements AddonInterface {
 
     public final static List<IEventSubscription> subscriptionList = new ArrayList<>();
 
+    public static long streamerGuildId = 882472860692647947L;
+    public static long streamerUserId = 206433753118146560L;
+
     @Override
     public void onEnable() {
         Main.getInstance().getLogger().info("Starting Twitch Redemption Addon...");
