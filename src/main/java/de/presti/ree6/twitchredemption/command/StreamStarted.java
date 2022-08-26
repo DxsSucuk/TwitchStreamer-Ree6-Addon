@@ -13,7 +13,6 @@ import de.presti.ree6.commands.interfaces.ICommand;
 import de.presti.ree6.main.Main;
 import de.presti.ree6.twitchredemption.main.TwitchRedemption;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 import java.io.FileOutputStream;
@@ -71,7 +70,7 @@ public class StreamStarted implements ICommand {
             switch (channelPointsRedemptionEvent.getRedemption().getReward().getId().trim()) {
                 case "ac36ac74-598e-41d2-8e33-a5cb94117af4" -> {
                     if (member.getVoiceState() != null && member.getVoiceState().inAudioChannel())
-                        Main.getInstance().getMusicWorker().loadAndPlaySilence((MessageChannelUnion) member.getGuild().getVoiceChannelById(member.getVoiceState().getChannel().getIdLong()), member.getVoiceState().getChannel(), "https://www.youtube.com/watch?v=rVVkEDVdLII", commandEvent.getInteractionHook());
+                        Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), member.getVoiceState().getChannel(), "https://www.youtube.com/watch?v=rVVkEDVdLII", commandEvent.getInteractionHook());
                 }
                 case "03811de1-5810-4b40-9a1f-79ecfbdca032" -> {
                     String input = channelPointsRedemptionEvent.getRedemption().getUserInput();
@@ -90,7 +89,7 @@ public class StreamStarted implements ICommand {
                     }
 
                     if (member.getVoiceState() != null && member.getVoiceState().inAudioChannel()) {
-                        Main.getInstance().getMusicWorker().loadAndPlaySilence((MessageChannelUnion) member.getGuild().getVoiceChannelById(member.getVoiceState().getChannel().getIdLong()), member.getVoiceState().getChannel(), of1.toString(), commandEvent.getInteractionHook());
+                        Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), member.getVoiceState().getChannel(), of1.toString(), commandEvent.getInteractionHook());
                     }
                 }
                 default ->
@@ -106,7 +105,7 @@ public class StreamStarted implements ICommand {
             }
 
             if (member.getVoiceState() != null && member.getVoiceState().inAudioChannel())
-                Main.getInstance().getMusicWorker().loadAndPlaySilence((MessageChannelUnion) member.getGuild().getVoiceChannelById(member.getVoiceState().getChannel().getIdLong()), member.getVoiceState().getChannel(), "https://soundcloud.com/ikill4fun23/explosion-3?in=ikill4fun23/sets/stream-stuff", commandEvent.getInteractionHook());
+                Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), member.getVoiceState().getChannel(), "https://soundcloud.com/ikill4fun23/explosion-3?in=ikill4fun23/sets/stream-stuff", commandEvent.getInteractionHook());
         }));
 
         TwitchRedemption.subscriptionList.add(Main.getInstance().getNotifier().getTwitchClient().getEventManager().onEvent(ChannelSubscribeEvent.class, subscribeEvent -> {
@@ -117,7 +116,7 @@ public class StreamStarted implements ICommand {
             }
 
             if (member.getVoiceState() != null && member.getVoiceState().inAudioChannel())
-                Main.getInstance().getMusicWorker().loadAndPlaySilence((MessageChannelUnion) member.getGuild().getVoiceChannelById(member.getVoiceState().getChannel().getIdLong()), member.getVoiceState().getChannel(), "https://soundcloud.com/ikill4fun23/sayori?in=ikill4fun23/sets/stream-stuff", commandEvent.getInteractionHook());
+                Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), member.getVoiceState().getChannel(), "https://soundcloud.com/ikill4fun23/sayori?in=ikill4fun23/sets/stream-stuff", commandEvent.getInteractionHook());
         }));
 
         TwitchRedemption.subscriptionList.add(Main.getInstance().getNotifier().getTwitchClient().getEventManager().onEvent(ChannelBitsEvent.class, channelBitsEvent -> {
@@ -128,7 +127,7 @@ public class StreamStarted implements ICommand {
             }
 
             if (member.getVoiceState() != null && member.getVoiceState().inAudioChannel()) {
-                Main.getInstance().getMusicWorker().loadAndPlaySilence((MessageChannelUnion) member.getGuild().getVoiceChannelById(member.getVoiceState().getChannel().getIdLong()), member.getVoiceState().getChannel(), "https://soundcloud.com/noticemesenpai/sayori?in=ikill4fun23/sets/stream-stuff", commandEvent.getInteractionHook());
+                Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), member.getVoiceState().getChannel(), "https://soundcloud.com/noticemesenpai/sayori?in=ikill4fun23/sets/stream-stuff", commandEvent.getInteractionHook());
 
                 String input = channelBitsEvent.getData().getChatMessage();
                 Path of1 = Path.of(of.toString(), "bitsTTS.mp3");
@@ -145,7 +144,7 @@ public class StreamStarted implements ICommand {
                     Main.getInstance().getLogger().error("Could not create file!", exception);
                 }
 
-                Main.getInstance().getMusicWorker().loadAndPlaySilence((MessageChannelUnion) member.getGuild().getVoiceChannelById(member.getVoiceState().getChannel().getIdLong()), member.getVoiceState().getChannel(), of1.toString(), commandEvent.getInteractionHook());
+                Main.getInstance().getMusicWorker().loadAndPlaySilence(commandEvent.getChannel(), member.getVoiceState().getChannel(), of1.toString(), commandEvent.getInteractionHook());
             }
         }));
 
