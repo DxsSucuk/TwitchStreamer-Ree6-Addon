@@ -6,7 +6,7 @@
 
     <groupId>de.presti</groupId>
     <artifactId>Twitch-Redemption-Addon</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -22,9 +22,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>de.ree6</groupId>
+            <groupId>com.github.Ree6-Applications</groupId>
             <artifactId>Ree6</artifactId>
-            <version>6b7e2be295</version>
+            <version>1.9.8</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
