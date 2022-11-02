@@ -9,6 +9,7 @@ import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
 import de.presti.ree6.addons.AddonInterface;
 import de.presti.ree6.bot.BotWorker;
 import de.presti.ree6.main.Main;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.unions.AudioChannelUnion;
 
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 public class TwitchRedemption implements AddonInterface {
 
     public static boolean isRunning = false;
@@ -38,7 +40,7 @@ public class TwitchRedemption implements AddonInterface {
 
     @Override
     public void onEnable() {
-        Main.getInstance().getLogger().info("Starting Twitch Redemption Addon...");
+        log.info("Starting Twitch Redemption Addon...");
 
         Path of = Path.of("addons/twitchRedemption/");
         if (!Files.exists(of)) {
@@ -61,7 +63,7 @@ public class TwitchRedemption implements AddonInterface {
                     if (member.getVoiceState() != null && member.getVoiceState().inAudioChannel()) {
                         AudioChannelUnion audioChannel = member.getVoiceState().getChannel();
                         if (audioChannel == null) return;
-                        Main.getInstance().getMusicWorker().loadAndPlaySilence(audioChannel.asVoiceChannel().getHistory().getChannel(), audioChannel, "https://www.youtube.com/watch?v=rVVkEDVdLII", null);
+                        Main.getInstance().getMusicWorker().loadAndPlaySilence(audioChannel.asVoiceChannel().getHistory().getChannel(), audioChannel, "https://www.youtube.com/watch?v=5DlROhT8NgU", null);
                     }
                 }
                 case "03811de1-5810-4b40-9a1f-79ecfbdca032" -> {
@@ -71,23 +73,23 @@ public class TwitchRedemption implements AddonInterface {
                     try {
                         fileInfo = createTTS(input);
                     } catch (InterruptedException | IOException e) {
-                        Main.getInstance().getLogger().error("Error while creating TTS file: " + e.getMessage());
+                        log.error("Error while creating TTS file: " + e.getMessage());
                     }
 
                     try (FileOutputStream fileOutputStream = new FileOutputStream(of1.toString())) {
                         fileOutputStream.write(fileInfo);
                     } catch (Exception exception) {
-                        Main.getInstance().getLogger().error("Could not create file!", exception);
+                        log.error("Could not create file!", exception);
                     }
 
                     if (member.getVoiceState() != null && member.getVoiceState().inAudioChannel()) {
                         AudioChannelUnion audioChannel = member.getVoiceState().getChannel();
                         if (audioChannel == null) return;
-                        Main.getInstance().getMusicWorker().loadAndPlaySilence(audioChannel.asVoiceChannel().getHistory().getChannel(), audioChannel, of1.toString(), null);
+                        Main.getInstance().getMusicWorker().loadAndPlay(audioChannel.asVoiceChannel().getHistory().getChannel(), audioChannel, of1.toString(), null, true);
                     }
                 }
                 default ->
-                        Main.getInstance().getLogger().info("Unhandled reward: " + channelPointsRedemptionEvent.getRedemption().getReward().getId());
+                        log.info("Unhandled reward: " + channelPointsRedemptionEvent.getRedemption().getReward().getId());
             }
         }));
 
@@ -101,7 +103,7 @@ public class TwitchRedemption implements AddonInterface {
             if (member.getVoiceState() != null && member.getVoiceState().inAudioChannel()) {
                 AudioChannelUnion audioChannel = member.getVoiceState().getChannel();
                 if (audioChannel == null) return;
-                Main.getInstance().getMusicWorker().loadAndPlaySilence(audioChannel.asVoiceChannel().getHistory().getChannel(), audioChannel, "https://soundcloud.com/ikill4fun23/explosion-3?in=ikill4fun23/sets/stream-stuff", null);
+                Main.getInstance().getMusicWorker().loadAndPlay(audioChannel.asVoiceChannel().getHistory().getChannel(), audioChannel, "https://soundcloud.com/ikill4fun23/explosion-3?in=ikill4fun23/sets/stream-stuff", null, true);
             }
         }));
 
@@ -115,7 +117,7 @@ public class TwitchRedemption implements AddonInterface {
             if (member.getVoiceState() != null && member.getVoiceState().inAudioChannel()) {
                 AudioChannelUnion audioChannel = member.getVoiceState().getChannel();
                 if (audioChannel == null) return;
-                Main.getInstance().getMusicWorker().loadAndPlaySilence(audioChannel.asVoiceChannel().getHistory().getChannel(), audioChannel, "https://soundcloud.com/ikill4fun23/sayori?in=ikill4fun23/sets/stream-stuff", null);
+                Main.getInstance().getMusicWorker().loadAndPlay(audioChannel.asVoiceChannel().getHistory().getChannel(), audioChannel, "https://soundcloud.com/ikill4fun23/sayori?in=ikill4fun23/sets/stream-stuff", null, true);
             }
         }));
 
@@ -129,7 +131,7 @@ public class TwitchRedemption implements AddonInterface {
             if (member.getVoiceState() != null && member.getVoiceState().inAudioChannel()) {
                 AudioChannelUnion audioChannel = member.getVoiceState().getChannel();
                 if (audioChannel == null) return;
-                Main.getInstance().getMusicWorker().loadAndPlaySilence(audioChannel.asVoiceChannel().getHistory().getChannel(), audioChannel, "https://soundcloud.com/noticemesenpai/sayori?in=ikill4fun23/sets/stream-stuff", null);
+                Main.getInstance().getMusicWorker().loadAndPlay(audioChannel.asVoiceChannel().getHistory().getChannel(), audioChannel, "https://soundcloud.com/noticemesenpai/sayori?in=ikill4fun23/sets/stream-stuff", null, true);
 
                 String input = channelBitsEvent.getData().getChatMessage();
                 Path of1 = Path.of(of.toString(), "bitsTTS.mp3");
@@ -137,16 +139,16 @@ public class TwitchRedemption implements AddonInterface {
                 try {
                     fileInfo = createTTS(input);
                 } catch (InterruptedException | IOException e) {
-                    Main.getInstance().getLogger().error("Error while creating bitsTT file: " + e.getMessage());
+                    log.error("Error while creating BitsTTS file: " + e.getMessage());
                 }
 
                 try (FileOutputStream fileOutputStream = new FileOutputStream(of1.toString())) {
                     fileOutputStream.write(fileInfo);
                 } catch (Exception exception) {
-                    Main.getInstance().getLogger().error("Could not create file!", exception);
+                    log.error("Could not create file!", exception);
                 }
 
-                Main.getInstance().getMusicWorker().loadAndPlaySilence(audioChannel.asVoiceChannel().getHistory().getChannel(), audioChannel, of1.toString(), null);
+                Main.getInstance().getMusicWorker().loadAndPlay(audioChannel.asVoiceChannel().getHistory().getChannel(), audioChannel, of1.toString(), null, true);
             }
         }));
 
@@ -154,7 +156,7 @@ public class TwitchRedemption implements AddonInterface {
         try {
             credential = new OAuth2Credential("twitch", Files.readString(of.resolve("twitch.creds")));
         } catch (IOException e) {
-            Main.getInstance().getLogger().error("Could not read Twitch credentials!", e);
+            log.error("Could not read Twitch credentials!", e);
         }
 
         Main.getInstance().getNotifier().getTwitchClient().getPubSub().listenForChannelPointsRedemptionEvents(credential, "47397687");
